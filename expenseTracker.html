@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expense tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="t3.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style></style>
+</head>
+
+<body>
+    <div>
+
+
+
+    </div>
+    <div class="toast show mx-auto ">
+        <form class="toast-body">
+            <h1>expense tracker</h1>
+            <label for="name"><b>Item Name</b></label>
+            <input id="nameInput" class="form-control" type="text" placeholder="enter item name"><br>
+            <label for="name"><b>Item Ammount</b></label>
+            <input id="ammtInput" class="form-control" type="text" placeholder="enter item ammount"><br>
+            <button type="submit" id="addBtn" class="btn btn-primary">Add Item</button>
+            <button id="clearBtn" class="btn btn-primary">clear all</button>
+            <span></span>
+        </form>
+        <div class="toast-footer">
+            <b><p> </p></b>
+            <b><span class="text-center"></span></b>
+        </div>
+    </div>
+
+    <script src="t3.js"></script>
+    <script>
+        let addBtn = document.querySelector("#addBtn");
+        let clearBtn = document.querySelector("#clearBtn");
+
+
+        function displayedTransactions() {
+            let p = document.querySelector("p");
+            let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            p.innerHTML = transactions.map((t) => {
+                return `${t.name}: $${t.ammt}`;
+            }).join('<br>');
+            updateTotalAmount(transactions);
+        }
+
+        function updateTotalAmount(transactions) {
+            let totalAmount = transactions.reduce((total, transaction) => {
+                return total + parseFloat(transaction.ammt);
+            }, 0);
+            document.querySelector(".toast-footer span").innerText = `Total Amount: $${totalAmount.toFixed(2)}`;
+        }
+
+        addBtn.addEventListener("click", (event) => {
+            event.preventDefault()
+            let nameVAL = document.querySelector("#nameInput").value;
+            let ammtVAL = document.querySelector("#ammtInput").value;
+            let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            transactions.push({
+                name: nameVAL,
+                ammt: ammtVAL
+            })
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            document.querySelector("#nameInput").value = "";
+            document.querySelector("#ammtInput").value = "";
+            displayedTransactions()
+        });
+        clearBtn.addEventListener("click", () => {
+            let p = document.querySelector("p");
+            localStorage.clear()
+            p.innerText = ''
+
+        })
+        displayedTransactions()
+    </script>
+</body>
+
+</html>
