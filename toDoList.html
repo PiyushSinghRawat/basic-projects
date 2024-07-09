@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        #form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="form">
+        <label for="text">Write your lists</label>
+        <div class="input-group mb-3">
+
+            <input class="form-control" type="text" id="text" placeholder="Lists">
+            <button class="btn btn-success add">Add list</button>
+            <button class="btn btn-danger remove">Remove Last</button>
+        </div>
+        <ul id="ul">
+        </ul>
+    </section>
+
+    <script>
+        let input = document.querySelector('#text');
+        let adBtn = document.querySelector('.add');
+        let removeBtn = document.querySelector('.remove');
+        let ul = document.querySelector('#ul');
+
+        // Function to add an item to the list and local storage
+        adBtn.addEventListener('click', () => {
+            let valRec = input.value.trim();
+
+            if (valRec !== '') {
+                let li = document.createElement('li');
+                li.textContent = valRec;
+                ul.appendChild(li);
+                saveToLocalstorage(valRec); // Pass the new item text to save to local storage
+                input.value = '';
+            }
+        });
+
+        // Function to remove the last item from the list and local storage
+        removeBtn.addEventListener('click', () => {
+            let lastItem = ul.lastElementChild; // Get the last <li> element
+
+            if (lastItem) {
+                ul.removeChild(lastItem); // Remove the last <li> element from the <ul>
+                removeFromLocalStorage(lastItem.textContent); // Remove from local storage
+            }
+        });
+
+        // Function to save items to local storage
+        function saveToLocalstorage(itemText) {
+            let items = JSON.parse(localStorage.getItem('items')) || [];
+            items.push(itemText);
+            localStorage.setItem('items', JSON.stringify(items));
+        }
+
+        // Function to load items from local storage
+        function loadFromLocalStorage() {
+            let items = JSON.parse(localStorage.getItem('items')) || [];
+            items.forEach(val => {
+                let li = document.createElement('li');
+                li.textContent = val;
+                ul.appendChild(li);
+            });
+        }
+
+        // Function to remove item from local storage
+        function removeFromLocalStorage(itemText) {
+            let items = JSON.parse(localStorage.getItem('items')) || [];
+            let index = items.indexOf(itemText);
+            if (index !== -1) {
+                items.splice(index, 1);
+                localStorage.setItem('items', JSON.stringify(items));
+            }
+        }
+
+        // Load items from local storage when the page is loaded
+        document.addEventListener('DOMContentLoaded', loadFromLocalStorage);
+
+    </script>
+</body>
+
+</html>
