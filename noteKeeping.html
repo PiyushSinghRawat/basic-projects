@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>local1</title>
+</head>
+
+<body>
+    <h1>eneter your notes here</h1>
+    <input id="heading" type="text" placeholder="heading"><br>
+    <textarea name="" id="content" cols="30" rows="10" placeholder="content"></textarea>
+    <button id="add">submit data</button><input type="number" placeholder="remove which" id="rem"><button id="remove">remove</button>
+    <ul id="notesContainer">
+
+    </ul>
+    <script>
+        let ul = document.querySelector('#notesContainer');
+        let add = document.querySelector('#add');
+        let remove = document.querySelector('#remove');
+
+        add.addEventListener('click', () => {
+            let content = document.querySelector('#content');
+            let heading = document.querySelector('#heading');
+            let contentval = content.value.trim();
+            let headingval = heading.value.trim();
+
+
+            if (headingval !== '' && contentval !== '') {
+                let li = document.createElement('li');
+                li.innerHTML = ` <b><i>${headingval}</i></b>  <br> ${ contentval}`;
+                ul.appendChild(li)
+                saveToLocalStorage(headingval, contentval);
+                content.value = "";
+                heading.value = "";
+            }
+        })
+        remove.addEventListener('click', () => {
+            let rem = document.querySelector('#rem');
+            let remval = rem.value.trim();
+            if (remval > 0) {
+                removeFromLocalStorage(remval - 1);
+                renderNotes();
+                rem.value = "";
+            }
+
+
+
+        })
+
+        function saveToLocalStorage(heading, content) {
+            let notes = JSON.parse(localStorage.getItem('notes') || []);
+            notes.push({
+                heading,
+                content
+            });
+            localStorage.setItem('notes', JSON.stringify(notes));
+
+        }
+
+        function renderNotes() {
+            ul.innerHTML = ""; // Clear the current list
+            loadNotes(); // Reload the notes
+        }
+
+        function removeFromLocalStorage(index) {
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            if (index >= 0 && index < notes.length) {
+                notes.splice(index, 1);
+                localStorage.setItem('notes', JSON.stringify(notes));
+            }
+        }
+
+        function loadNotes() {
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            notes.forEach(note => {
+                let li = document.createElement('li');
+                li.innerHTML = `<b><i>${note.heading}</i></b><br>${note.content}`;
+                ul.appendChild(li);
+            });
+        }
+
+        // Load notes from localStorage when the page loads
+        window.onload = loadNotes;
+    </script>
+
+</body>
+
+</html>
