@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            height: 100px;
+            width: 100px;
+            border: 2px solid red;
+            margin-bottom: 2px;
+            position: relative;
+        }
+        
+        .flex {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        
+        .cloned {
+            position: fixed;
+            top: 100px;
+            width: 80%;
+            height: 100vh;
+            background-color: red;
+            color: yellow;
+            border-color: pink;
+            z-index: 99;
+        }
+    </style>
+</head>
+
+<body>
+    <select name="" id="textRec">
+        <option value=""></option>
+        <option value="a">apple</option>
+        <option value="b">ball</option>
+        <option value="c">cab</option>
+        <option value="d">daaru</option>
+        <option value="e">ekta kapoor</option>
+        <option value="f">faltugiri</option>
+        <option value="g">ghamand</option>
+        <option value="h">hadippa</option>
+        <option value="i">iceberg</option>
+        <option value="j">jamaila</option>
+        <option value="k">kaalu</option>
+        <option value="l">lota</option>
+        <option value="m">mummy</option>
+        <option value="n">naani</option>
+        <option value="o">oppo</option>
+        <option value="p">poco</option>
+        <option value="q">quecha</option>
+        <option value="r">right</option>
+        <option value="s">sabar</option>
+    </select>
+    <button type="button" class="searchBtn">search</button>
+
+    <section class="flex">
+        <div id="a">apple</div>
+        <div id="b">ball</div>
+        <div id="c">cab</div>
+        <div id="d">daaru</div>
+    </section>
+    <section class="flex">
+        <div id="e">ekta kapoor</div>
+        <div id="f">faaltugiri</div>
+        <div id="g">ghamand</div>
+        <div id="h">hadippa</div>
+    </section>
+    <section class="flex">
+        <div id="i">iceberg</div>
+        <div id="j">jamaila</div>
+        <div id="k">kaalu</div>
+        <div id="l">lota</div>
+    </section>
+    <section class="flex">
+        <div id="m">mummy</div>
+        <div id="n">naani</div>
+        <div id="o">oppo</div>
+        <div id="p">poco</div>
+    </section>
+    <section class="flex">
+        <div id="q">quecha</div>
+        <div id="r">right</div>
+        <div id="s">sabar</div>
+        <div id="t">total</div>
+    </section>
+
+    <script>
+        let submit = document.querySelector('.searchBtn');
+        let textRec = document.querySelector('#textRec');
+        let clonedEl = null;
+
+        submit.addEventListener('click', () => {
+            let textVal = textRec.value;
+
+            // Remove any existing cloned elements
+            if (clonedEl) {
+                clonedEl.remove();
+                clonedEl = null;
+            }
+
+            // Clone and display the selected div
+            if (textVal !== '') {
+                let selectedEl = document.querySelector('#' + textVal);
+                clonedEl = selectedEl.cloneNode(true);
+                clonedEl.classList.add('cloned');
+                document.body.appendChild(clonedEl);
+
+                // Add event listener to remove cloned element on click outside
+
+
+
+            }
+
+        });
+    </script>
+</body>
+
+</html>
