@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autocomplete and Clone Example</title>
+    <title>USER SEARCH EXPERIENCE</title>
     <style>
         div {
             height: 100px;
@@ -117,17 +117,20 @@
 
         submit.addEventListener('click', () => {
             let textVal = textRec.value.trim().toLowerCase();
+            console.log(`Searching for: ${textVal}`);
 
             // Remove any existing cloned elements
             if (clonedEl) {
                 clonedEl.remove();
                 clonedEl = null;
+                console.log("Removed existing cloned element.");
             }
 
             // Clone and display the selected div
             if (textVal !== '') {
                 let selectedEl = document.querySelector(`#${textVal}`);
                 if (selectedEl) {
+                    console.log(`Element found: ${selectedEl}`);
                     clonedEl = selectedEl.cloneNode(true);
 
                     // Remove ID from the cloned element to avoid duplicates
@@ -142,18 +145,22 @@
                         clonedEl.remove();
                         clonedEl = null;
                         document.querySelector('main').style.opacity = '1';
+                        console.log("Cloned element removed.");
                     });
 
                     clonedEl.classList.add('cloned');
                     document.body.appendChild(clonedEl);
+                    console.log(`Cloned element appended: ${clonedEl}`);
 
                     // Make sure styles are applied after the element is appended
                     setTimeout(() => {
                         document.querySelector('main').style.opacity = '0.4';
+                        console.log("Main element opacity changed.");
                     }, 0);
 
                 } else {
                     alert('Item not found');
+                    console.log('Item not found');
                 }
             }
         });
@@ -163,6 +170,7 @@
                 clonedEl.remove();
                 clonedEl = null;
                 document.querySelector('main').style.opacity = '1';
+                console.log("Clicked outside cloned element, removed cloned element.");
             }
         });
     </script>
