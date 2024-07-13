@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autocomplete and Clone Example</title>
+    <style>
+        div {
+            height: 100px;
+            width: 100px;
+            border: 2px solid red;
+            margin-bottom: 2px;
+            position: relative;
+        }
+        
+        .flex {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        
+        .cloned {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            height: 50vh;
+            background-color: red;
+            color: yellow;
+            border-color: pink;
+            z-index: 99;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: yellow;
+            color: red;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <input type="text" id="textRec" name="fruits" placeholder="item name" list="fruits">
+    <datalist id="fruits">
+        <option value="apple">apple</option>
+        <option value="ball">ball</option>
+        <option value="cab">cab</option>
+        <option value="daaru">daaru</option>
+        <option value="ekta">ekta</option>
+        <option value="faaltugiri">faaltugiri</option>
+        <option value="ghamand">ghamand</option>
+        <option value="hadippa">hadippa</option>
+        <option value="iceberg">iceberg</option>
+        <option value="joker">joker</option>
+        <option value="kaalu">kaalu</option>
+        <option value="lota">lota</option>
+        <option value="mummy">mummy</option>
+        <option value="naani">naani</option>
+        <option value="oppo">oppo</option>
+        <option value="poco">poco</option>
+        <option value="quecha">quecha</option>
+        <option value="right">right</option>
+        <option value="sabar">sabar</option>
+        <option value="total">total</option>
+    </datalist>
+    <button type="button" class="searchBtn">search</button>
+
+
+    <main>
+        <section class="flex">
+            <div id="apple">apple</div>
+            <div id="ball">ball</div>
+            <div id="cab">cab</div>
+            <div id="daaru">daaru</div>
+        </section>
+        <section class="flex">
+            <div id="ekta">ekta</div>
+            <div id="faaltugiri">faaltugiri</div>
+            <div id="ghamand">ghamand</div>
+            <div id="hadippa">hadippa</div>
+        </section>
+        <section class="flex">
+            <div id="iceberg">iceberg</div>
+            <div id="joker">joker</div>
+            <div id="kaalu">kaalu</div>
+            <div id="lota">lota</div>
+        </section>
+        <section class="flex">
+            <div id="mummy">mummy</div>
+            <div id="naani">naani</div>
+            <div id="oppo">oppo</div>
+            <div id="poco">poco</div>
+        </section>
+        <section class="flex">
+            <div id="quecha">quecha</div>
+            <div id="right">right</div>
+            <div id="sabar">sabar</div>
+            <div id="total">total</div>
+        </section>
+    </main>
+
+    <script>
+        let submit = document.querySelector('.searchBtn');
+        let textRec = document.querySelector('#textRec');
+        let clonedEl = null;
+
+        submit.addEventListener('click', () => {
+            let textVal = textRec.value.trim().toLowerCase();
+
+            // Remove any existing cloned elements
+            if (clonedEl) {
+                clonedEl.remove();
+                clonedEl = null;
+            }
+
+            // Clone and display the selected div
+            if (textVal !== '') {
+                let selectedEl = document.querySelector(`#${textVal}`);
+                if (selectedEl) {
+                    clonedEl = selectedEl.cloneNode(true);
+
+                    // Remove ID from the cloned element to avoid duplicates
+                    clonedEl.removeAttribute('id');
+
+                    // Create and append close button
+                    let closebtn = document.createElement('button');
+                    closebtn.innerHTML = 'X';
+                    closebtn.classList.add('close-btn');
+                    clonedEl.appendChild(closebtn);
+                    closebtn.addEventListener('click', () => {
+                        clonedEl.remove();
+                        clonedEl = null;
+                        document.querySelector('main').style.opacity = '1';
+                    });
+
+                    clonedEl.classList.add('cloned');
+                    document.body.appendChild(clonedEl);
+
+                    // Make sure styles are applied after the element is appended
+                    setTimeout(() => {
+                        document.querySelector('main').style.opacity = '0.4';
+                    }, 0);
+
+                } else {
+                    alert('Item not found');
+                }
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            if (clonedEl && !clonedEl.contains(event.target) && event.target !== textRec) {
+                clonedEl.remove();
+                clonedEl = null;
+                document.querySelector('main').style.opacity = '1';
+            }
+        });
+    </script>
+</body>
+
+</html>
