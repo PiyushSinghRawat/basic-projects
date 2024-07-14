@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            margin: auto;
+            height: 300px;
+            width: 500px;
+            border: 2px solid black;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        button {
+            margin-top: 10px;
+            margin-left: auto;
+            margin-right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <input type="text" placeholder="name"><br>
+        <input type="text" placeholder="hobby"><br>
+        <input type="email" placeholder="email"><br>
+        <input type="number" placeholder="age"><br>
+        <input type="text" placeholder="study"><br>
+        <input type="text" placeholder="address"><br>
+        <button style="transition: all .5s;">submit</button>
+        <p></p>
+    </div>
+    <script>
+        let btn = document.querySelector('button');
+        let inputs = document.querySelectorAll('input');
+        let p = document.querySelector('p')
+
+        btn.addEventListener('mouseover', () => {
+            let isEmpty = false;
+            if (!isEmpty) {
+                p.innerHTML = ''
+
+            }
+
+            inputs.forEach(input => {
+                if (input.value === '') {
+                    isEmpty = true;
+                }
+            });
+
+            if (isEmpty) {
+                let marginLeft = window.getComputedStyle(btn).marginLeft;
+
+                if (marginLeft === '350px') {
+                    btn.style.marginLeft = 'auto';
+                    btn.style.marginRight = '700px';
+                    btn.style.backgroundColor = 'red'
+                    btn.style.color = 'white'
+                    p.innerHTML = 'fill all the detailis above'
+                    p.style.backgroundColor = 'blue'
+                    p.style.color = 'yellow'
+                } else {
+                    btn.style.backgroundColor = 'blue'
+                    btn.style.color = 'yellow'
+                    btn.style.marginLeft = '350px';
+                    btn.style.marginRight = 'auto';
+                    p.innerHTML = 'bhai upar ki saari details toh bharde pehle'
+                    p.style.backgroundColor = 'red'
+                    p.style.color = 'white'
+                }
+            }
+            // btn.style.marginLeft = 'auto'
+        });
+    </script>
+</body>
+
+</html>
